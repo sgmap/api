@@ -71,7 +71,7 @@ L’assertion d’authentification OpenIDConnect « remonte » au fournisseur de
 Ces éléments sont fournis par [notre annuaire](https://annuaire.sante.fr) et incorporé dans le jeton OpenIdConnect.
 |
 
-### Données disponibles dans l'API
+### Données disponibles dans l'API 
 
 
 | Type                       | Données                                                  |
