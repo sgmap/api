@@ -205,6 +205,9 @@
     - type: ADD_API
       what: Accès Libre
     - type: ADD_API
+      what: SI-Amiante
+      path: /les-api/api-si-amiante
+    - type: ADD_API
       what: AgentConnect par la DINUM
     - type: ADD_API
       what: Référentiel Partagé des Professionnels de Santé

@@ -1,0 +1,330 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://amiante.rct01.kleegroup.com'
+    description: ''
+    variables: {}
+info:
+  version: d2507b47-66bd-4b43-88c2-fe78ce3f6c59
+  title: Amiante API 
+  description: ''
+  termsOfService: 'nnnn'
+  contact: 
+    email: 'si-amiante@dgs.gouv.fr'
+  license:
+    name: ''
+paths:
+  /enrolement:
+    post:
+      summary: Service d’enrôlement
+      description: 'Lorsque l’utilisateur enregistre sa clé sur un logiciel, ce dernier doit faire appel à un web service d’enrôlement qui va servir à appairer le logiciel et la clé technique.
+L’appel à ce web service est indispensable à l’utilisation de la clé utilisateur. Elle ne sera pas activée sinon
+'
+      operationId: enrolement
+      parameters:
+        - $ref: '#/components/parameters/cle'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              example: {}
+            example: |-
+              {
+                    "numCertif": "AB-657",
+                    "siren": "339787277",
+                    "denominationSociale": "Ma societé"                
+              }
+  /rapportMlad:
+    post:
+      summary: Service de soumission du rapport MLAD
+      description: ' Ce service permet de déposer un rapport MLAD (matériaux liste A dégradés) au format PDF ainsi que les informations associées à ce rapport '
+      operationId: rapportMlad
+      parameters:
+        - $ref: '#/components/parameters/cle'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+            example:
+              - key: json
+                value: |-
+                  {
+                    "dateRapport": "02/06/2020",
+                    "dateTransmission": "06/06/2020",
+                    "typesBatiments": ["ERP","HAB","AUT"],
+                    "grandeHauteur": "true",
+                    "adresse": "1 rue de l'adresse",
+                    "codePostal": "91220",
+                    "ville": "DRAVEIL",
+                    "fonctionBatiment": "A17",
+                    "numSiret": "00000972487086",
+                    "raisonSociale": "raisonSoc",
+                    "flocage": "ABS",
+                    "calorifugeage": "N1",
+                    "fauxPlafond": "N3"
+                  }
+                type: text
+                disabled: true
+              - key: pdf
+                type: file
+                src: '/C:/Users/tmaguelonne/Desktop/test.pdf'
+                disabled: true
+              - key: pdf
+                value: test
+                type: text
+                disabled: true
+  /declarationActivite:
+    post:
+      summary: Service de soumission de déclaration de l’activité
+      description: 'Ce service permet le dépôt de la déclaration annuelle de l’activité.'
+      operationId: declarationActivite
+      parameters:
+        - $ref: '#/components/parameters/cle'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: 
+                                  {
+                      "declarationsList": [
+                        {
+                          "identifiantLogiciel" : "id001",
+                          "annee" : "2020",
+                          "codePostal" : "78000",
+                          "ville" : "Versailles",
+                          "departement" : "078",
+                          "typeBatiment": "T2",
+                          "anneeConstructionDebut " : "1998",
+                          "anneeConstructionFin" : "2001",
+                          "activiteConcernee" : "A4", 
+                          "objectif" : "O4",
+                          "materiauxListeA" : "N3",
+                          "materiauxListeB" : "B4",
+                          "autresMateriaux" : "false",
+                          "analysesRealisees" : 5,
+                          "analysesPositives" : 4,
+                          "materiauxPresents" : "M1"
+                        }
+                        ]
+                  }            
+  /amiante-api/annulationMlad:
+    delete:
+      summary: Service d’annulation de rapport MLAD
+      description: 'Ce service permet d’annuler le dépôt d’un rapport MLAD à partir de son numéro d’identification unique.'
+      operationId: annulationMlad
+      parameters:
+        - $ref: '#/components/parameters/cle'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: {
+                "identifiantRapportMlad": "RAP28072020-2",
+                "commentaire": " mon commentaire"
+              }
+          
+  /campagne:
+    get:
+      summary: Service Etat de la campagne
+      description: 'L’utilisateur fait appel à ce web service pour récupérer les informations sur l’éventuelle campagne diagnostiqueur en cours.'
+      operationId: campagne
+      parameters:
+        - $ref: '#/components/parameters/annee'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /supressionDeclarationActivite:
+    delete:
+      summary: Service de suppression de la déclaration de l’activité
+      description: 'Ce service permet de supprimer les lignes soumises lors de précédentes déclarations de l’activité via l’identifiant unique associé.'
+      operationId: supressionDeclarationActivite
+      parameters:
+        - $ref: '#/components/parameters/cle'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+       requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: {
+                
+                "declarationsList": [
+                    {
+                        "identifiantDeclarationActivite": "1002",
+                      },
+                    {
+                        "identifiantDeclarationActivite": "1044",
+                    }
+                ]
+              }         
+  /modificationDeclarationActivite:
+    post:
+      summary: Service de modification de la déclaration de l’activité
+      description: 'Ce service permet de remplacer des lignes soumises lors de précédentes déclarations de l’activité par de nouvelles données via l’identifiant unique associé.'
+      operationId: modificationDeclarationActivite
+      parameters:
+        - $ref: '#/components/parameters/cle'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+                example: {
+                
+                "declarationsList": [
+                    {
+                        "identifiantDeclarationActivite": "1002",
+                        "identifiantLogiciel": "id002",
+                        "annee": "2020",
+                        "codePostal": "01000",
+                        "ville": "Bourg-en-Bresse",
+                        "departement": "001",
+                        "typeBatiment": "T1",
+                        "anneeConstructionDebut": "1985",
+                        "anneeConstructionFin": "1995",
+                        "activiteConcernee": "A2",
+                        "objectif": "O2",
+                        "materiauxListeA": "N2",
+                        "materiauxListeB": "B3",
+                        "autresMateriaux": "true",
+                        "analysesRealisees": "10",
+                        "analysesPositives": "5",
+                        "materiauxPresents": "M2"
+                    },
+                    {
+                        "identifiantDeclarationActivite": "1044",
+                        "identifiantLogiciel": "4566666",
+                        "annee": "2020",
+                        "codePostal": "75001",
+                        "ville": "Paris",
+                        "departement": "075",
+                        "typeBatiment": "T2",
+                        "anneeConstructionDebut": "1980",
+                        "anneeConstructionFin": "",
+                        "activiteConcernee": "A2",
+                        "objectif": "O2",
+                        "materiauxListeA": "N2",
+                        "materiauxListeB": "B3",
+                        "autresMateriaux": "false",
+                        "analysesRealisees": "15",
+                        "analysesPositives": "10",
+                        "materiauxPresents": "M3"
+                    }
+                ]
+              }
+
+  /historiqueMlad: 
+     get:
+      summary: Service de consultation de l’historique des rapports déposés
+      description: 'Ce service permet de consulter l’historique des rapports déposés à l’aide d’une clé.'
+      operationId: historiqueMlad
+      parameters:
+        - $ref: '#/components/parameters/cle'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /ressources: 
+     get:
+      summary: Service d’accès aux ressources du SI Amiante
+      description: 'L’utilisateur fait appel à ce web service pour récupérer les ressources de l’application SI Amiante.'
+      operationId: ressources
+      parameters:
+        - $ref: '#/components/parameters/cle'
+      responses:
+        '200':
+          description: ''
+          headers: {}        
+  /historiqueDeclaration: 
+     get:
+      summary: Service de consultation de l’historique des campagnes de déclarations
+      description: 'Ce service permet de consulter la liste des déclarations de l’activité déposées à l’aide d’une clé.'
+      operationId: historiqueDeclaration
+      parameters:
+        - $ref: '#/components/parameters/cle'
+        - $ref: '#/components/parameters/annee'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /actualites: 
+     get:
+      summary: Service d’accès aux actualités relatives à SI Amiante
+      description: 'L’utilisateur fait appel à ce web service pour récupérer les actualités de l’application SI Amiante.'
+      operationId: actualites
+      parameters:
+        - $ref: '#/components/parameters/cle'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /avisDeclaration: 
+     get:
+      summary: Service de téléchargement de l’avis de déclaration
+      description: 'Ce service permet de télécharger l’avis de déclaration effectuée à l’aide d’une clé.'
+      operationId: avisDeclaration
+      parameters:
+        - $ref: '#/components/parameters/cle'
+        - $ref: '#/components/parameters/annee'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+
+components:
+  parameters:
+    cle:
+      name: cle
+      in: header
+      required: true
+      style: simple
+      schema:
+        type: string
+        example: mthg2s2lzzn87pb3t11mzqqb1bp0jp169ity9c767forex27igfax7wcu77mj0fl
+    annee:
+      name: annee
+      in: query
+      required: true
+      style: form
+      schema:
+        type: number
+        example: 2020
+security: []
+tags: []
+externalDocs:
+  url: ''
+  description: ''
