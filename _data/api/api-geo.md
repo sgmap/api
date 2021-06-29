@@ -19,12 +19,6 @@ rate_limiting_description: |
   L'API est disponible à hauteur de 50 appels par seconde et par adresse IP.
 themes:
   - Géographie
-stat:
-  lastXdays: 7
-  url: https://geo.api.gouv.fr/stats.json
-  label: recherches effectuées
-  path:
-    - last7DaysQueries
 content_intro: |
   L' **API Découpage Administratif** fait partie de la boîte-à-outils API Géo. Elle permet d'interroger facilement les référentiels géographique nationaux.
 

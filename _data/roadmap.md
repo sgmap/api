@@ -153,6 +153,10 @@
     - type: ADD_API
       what: La Bonne Alternance
       path: /les-api/api-la-bonne-alternance
+  2:
+    - type: ADD_API
+      what: API Accessibilité des Établissements Recevant du Public (ERP) - Accès Libre
+      path: /les-api/api-accessibilite-erp-acces-libre
   3:
     - type: ADD_API
       what: Métadonnées de l'INSEE
