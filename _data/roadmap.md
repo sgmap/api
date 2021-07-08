@@ -210,6 +210,9 @@
       what: Attestation Codes Sécurité par l'Urssaf
     - type: ADD_API
       what: Déclaration préalable à l'embauche par l'Urssaf
+    - type: ADD_API
+      what: Liste des organismes de formation par la DGEFP
+      path: /les-api/api-organismes-formation
   8:
     - type: ADD_API
       what: CVEC par le CNOUS
@@ -218,8 +221,6 @@
       what: AgentConnect par la DINUM
     - type: ADD_API
       what: Hermés par la DGFiP
-    - type: ADD_API
-      what: Liste des organismes de formation par la DGEFP
     - type: ADD_API
       what: Accès Libre
     - type: ADD_API
